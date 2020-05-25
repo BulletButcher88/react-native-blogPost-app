@@ -1,11 +1,22 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { useContext } from 'react'
+import { StyleSheet } from 'react-native'
+import { Context } from '../context/BlogContext'
+import BlogPostForm from '../components/BlogPostForm'
+
 
 
 const EditScreen = ({ navigation }) => {
-  return <View>
-    <Text>EDIT SCREEN {navigation.getParam('id')}</Text>
-  </View>
+  const { state, addBlogPost } = useContext(Context)
+
+  const blogPost = state.find(
+    blog => blog.id === navigation.getParam('id')
+  )
+
+  return <BlogPostForm
+    initialValue={{ title: blogPost.title, content: blogPost.content }}
+    onSubmit={(title, content) => {
+      console.log(title, content)
+    }} />
 }
 
 
