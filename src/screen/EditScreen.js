@@ -13,7 +13,6 @@ const EditScreen = ({ navigation }) => {
     blog => blog.id === id
   )
 
-
   return <BlogPostForm
     initialValue={{ title: blogPost.title, content: blogPost.content }}
     onSubmit={(title, content) => {
