@@ -1,9 +1,10 @@
-import React, { useReducer } from 'react'
 import createDataContext from './createDataContext'
-
+import jsonServer from '../api/jsonServer'
 
 const blogReducer = (state, action) => {
   switch (action.type) {
+    case 'get-blog-post':
+      return action.payload;
     case 'add-blog-post':
       return [
         ...state,
@@ -13,7 +14,7 @@ const blogReducer = (state, action) => {
           content: action.payload.content
         }
       ]
-    case 'edit_blogpost':
+    case 'edit_blog-post':
       return state.map((blogPost) => {
         return blogPost.id === action.payload.id
           ? action.payload
@@ -26,10 +27,19 @@ const blogReducer = (state, action) => {
   }
 }
 
+const getBlogPost = (dispatch) => {
+  return async () => {
+    const response = await jsonServer.get('/blogposts')
+    dispatch({ type: 'get_blog-posts', payload: response.data })
+  }
+};
+
 
 const addBlogPost = (dispatch) => {
-  return (title, content, callback) => {
-    dispatch({ type: 'add-blog-post', payload: { title: title, content: content } })
+  return async (title, content, callback) => {
+    await jsonServer.post('/blogposts', { title, content })
+
+    // dispatch({ type: 'add-blog-post', payload: { title: title, content: content } })
     callback && callback()
   }
 }
@@ -42,23 +52,13 @@ const deleteBlogPost = (dispatch) => {
 
 const editBlogPost = (dispatch) => {
   return (id, title, content, callback) => {
-    dispatch({ type: 'edit_blogpost', payload: { id, title, content } });
+    dispatch({ type: 'edit_blog-post', payload: { id, title, content } });
     callback && callback()
   }
 }
 
-// const editBlogPost = (dispatch) => {
-//   return (id, title, content, callback) => {
-//     dispatch({ type: 'edit_blogpost', payload: { id, title, content } });
-//     if (callback) {
-//       callback();
-//     }
-//   };
-
-// };
-
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost, deleteBlogPost, editBlogPost },
-  [{ title: 'TEST TITLE', content: "TEST CONTENT", id: 1 }]
+  { addBlogPost, deleteBlogPost, editBlogPost, getBlogPost },
+  []
 )

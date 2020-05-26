@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Text, View, StyleSheet, FlatList, Button, TouchableOpacity } from 'react-native'
+import React, { useContext, useEffect } from 'react'
+import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { Feather } from '@expo/vector-icons';
 
 import { Context } from '../context/BlogContext'
@@ -9,7 +9,18 @@ const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16
 
 
 const IndexScreen = ({ navigation }) => {
-  const { state, deleteBlogPost } = useContext(Context)
+  const { state, deleteBlogPost, getBlogPost } = useContext(Context)
+
+  useEffect(() => {
+    getBlogPost();
+
+    navigation.addListener('didFocus', () => {
+      getBlogPost();
+    });
+  }, [])
+
+  console.log(state)
+
   return (
     <View>
       <FlatList
