@@ -16,7 +16,11 @@ const ShowScreen = ({ navigation }) => {
   return (
     <View>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.contentStyle} >{content}</Text>
+      <Text style={{
+        height: `100%`,
+        fontSize: 30,
+        backgroundColor: randomColor(),
+      }} >{content}</Text>
     </View>
   )
 }
@@ -41,11 +45,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     fontSize: 100.
   },
-  contentStyle: {
-    height: `100%`,
-    fontSize: 30,
-    backgroundColor: randomColor(),
-  }
+  // contentStyle: {
+  //   height: `100%`,
+  //   fontSize: 30,
+  //   backgroundColor: randomColor(),
+  // }
 
 })
 
