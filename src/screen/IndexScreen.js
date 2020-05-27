@@ -5,7 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { Context } from '../context/BlogContext'
 
 
-const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16)
+export const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16)
 
 
 const IndexScreen = ({ navigation }) => {
@@ -14,12 +14,15 @@ const IndexScreen = ({ navigation }) => {
   useEffect(() => {
     getBlogPost();
 
-    navigation.addListener('didFocus', () => {
+    const listener = navigation.addListener('didFocus', () => {
       getBlogPost();
     });
+
+    return () => {
+      listener.remove()
+    }
   }, [])
 
-  console.log(state)
 
   return (
     <View>

@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Context } from '../context/BlogContext'
 import { Feather } from '@expo/vector-icons';
 
+export const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16)
+
+
 const ShowScreen = ({ navigation }) => {
   const { state } = useContext(Context)
 
@@ -12,9 +15,8 @@ const ShowScreen = ({ navigation }) => {
   const { title, id, content } = blogPost
   return (
     <View>
-      <Text>{title}</Text>
-      <Text>{id}</Text>
-      <Text>{content}</Text>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.contentStyle} >{content}</Text>
     </View>
   )
 }
@@ -34,6 +36,16 @@ ShowScreen.navigationOptions = ({ navigation }) => {
 
 
 const styles = StyleSheet.create({
+  title: {
+    color: 'white',
+    backgroundColor: 'black',
+    fontSize: 100.
+  },
+  contentStyle: {
+    height: `100%`,
+    fontSize: 30,
+    backgroundColor: randomColor(),
+  }
 
 })
 
